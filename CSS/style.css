@@ -1,0 +1,24 @@
+.scroll-box {
+    max-height: 200px;
+    max-width: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-container > div {
+    margin-right: 10px;
+}
+
+.movie-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    display: inline-block;
+}
