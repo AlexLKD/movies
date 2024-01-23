@@ -1,8 +1,10 @@
 <?php
 
-require './vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+namespace App;
+
+use Exception;
+use PDO;
+use PDOException;
 
 abstract class Database
 {

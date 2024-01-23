@@ -1,5 +1,7 @@
 <?php
+namespace App;
 
+use Exception;
 
 class Actor {
     private $dbCo;
@@ -22,4 +24,3 @@ class Actor {
         }
     }
 }
-
