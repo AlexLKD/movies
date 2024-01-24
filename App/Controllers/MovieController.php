@@ -43,9 +43,10 @@ class MovieController
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['showGenres'])) {
                 $selectedMovieId = $_POST['selectedMovie'];
                 $movieHandler = new MovieHandler();
+                $movie = new Movie();
+                $selectedMovieTitle = $movie->getMovieTitleById($selectedMovieId); // Add this method to your MovieHandler class
                 $currentGenres = $movieHandler->getGenresForMovie($selectedMovieId);
                 $otherGenres = $movieHandler->getOtherGenresForMovie($selectedMovieId);
-
                 // Include the file to display genres
                 include 'Views/display_genres.php';
             }

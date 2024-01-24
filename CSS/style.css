@@ -21,6 +21,10 @@ h6 {
     padding: 0;
 }
 
+li {
+    list-style: none;
+}
+
 body {
     font-family: "Roboto", Helvetica, sans-serif;
 }
@@ -123,4 +127,17 @@ nav li.active {
     display: flex;
     justify-content: center;
     gap: 5px;
+}
+
+.genre-lists {
+    display: flex;
+    justify-content: space-around;
+}
+
+.current-genres {
+    display: flex;
+}
+
+.other-genres {
+    display:flex;
 }

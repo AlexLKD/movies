@@ -59,5 +59,22 @@ class Movie {
         $stmt = $this->dbCo->prepare($query);
         $stmt->execute([$movieId, $genreId]);
     }
+    
+    public function getMovieTitleById($movieId)
+    {
+        $query = "SELECT title FROM movie WHERE id_movie = :movieId";
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($result) {
+            return $result['title'];
+        } else {
+            throw new Exception("Movie not found with ID: $movieId");
+        }
+    }
+
 }
 
