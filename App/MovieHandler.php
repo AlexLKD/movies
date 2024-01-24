@@ -78,15 +78,6 @@ class MovieHandler
         return $stmt->fetchAll();
     }
 
-    // public function searchMovies($searchTerm)
-    // {
-    //     $query = "SELECT * FROM movie WHERE title LIKE :searchTerm";
-    //     $stmt = $this->dbCo->prepare($query);
-    //     $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll();
-    // }
-
     public function searchMoviesWithDetails($searchTerm, $director = null, $genre = null, $actor = null)
     {
         // Build the basic query
@@ -132,8 +123,5 @@ class MovieHandler
     
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
-
 
 }

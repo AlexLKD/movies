@@ -7,10 +7,12 @@ use App\MovieHandler;
 class MovieController
 {
     private $movieHandler;
+    private $movie;
 
     public function __construct()
     {
         $this->movieHandler = new MovieHandler();
+        $this->movie = new Movie();
     }
 
     public function addMovie()

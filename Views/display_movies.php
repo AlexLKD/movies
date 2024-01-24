@@ -42,44 +42,44 @@ if (isset($_GET['search'])) {
 
 ?>
 
-<h2>All Movies</h2>
+<h2 class="ttl">All Movies</h2>
 
 <!-- Formulaire dans votre fichier HTML -->
-<form action="" method="get">
-    <label for="search">Rechercher un film :</label>
+<form action="" method="get" class="filter-form">
+    <label for="search">Search a movie :</label>
     <input type="text" id="search" name="search">
-    <label for="director">Directeur :</label>
+    <label for="director">Director :</label>
     <select id="director" name="director">
-        <option value="">Tous les directeurs</option>
+        <option value="">All Directors</option>
         <?php foreach ($directors as $director) : ?>
             <option value="<?= $director['id_director'] ?>"><?= $director['first_name'] ?> <?= $director['last_name'] ?></option>
         <?php endforeach; ?>
     </select>
     <label for="genre">Genre :</label>
     <select id="genre" name="genre">
-        <option value="">Tous les genres</option>
+        <option value="">All genres</option>
         <?php foreach ($genres as $genre) : ?>
             <option value="<?= $genre['id_genre'] ?>"><?= $genre['name'] ?></option>
         <?php endforeach; ?>
     </select>
-    <label for="actor">Acteur :</label>
+    <label for="actor">Actor :</label>
     <select id="actor" name="actor">
-        <option value="">Tous les acteurs</option>
+        <option value="">All Actors</option>
         <?php foreach ($actors as $actor) : ?>
             <option value="<?= $actor['id_actor'] ?>"><?= $actor['first_name'] ?> <?= $actor['last_name'] ?></option>
         <?php endforeach; ?>
     </select>
-    <button type="submit">Rechercher</button>
+    <button type="submit">Search</button>
 </form>
 
 
-
+<div class="movie-boxes">
 <?php foreach ($movies as $movie) : ?>
-    <div class="movie-box">
-        <h3><?= $movie['title'] ?></h3>
+    <div class="movie-box" data-movie-id="<?= $movie['id_movie'] ?>">
+        <h3 class="ttl"><?= $movie['title'] ?></h3>
         <p><strong>Director:</strong> <?= $directorClass->getDirectorName($movie['director_id_director']) ?></p>
-        <p><strong>Actors:</strong> <?= $actorClass->getActorsNames($movie['id_movie']) ?></p>
+        <p ><strong>Actors:</strong> <?= $actorClass->getActorsNames($movie['id_movie']) ?></p>
         <p><strong>Genres:</strong> <?= $genreClass->getGenreNames($movie['id_movie']) ?></p>
     </div>
 <?php endforeach; ?>
-
+</div>

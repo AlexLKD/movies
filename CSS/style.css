@@ -1,3 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+
+body,
+nav,
+figure,
+p,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Roboto", Helvetica, sans-serif;
+}
+
+/* HEADER */
+
+header {
+    background-color: #888;
+    padding: 3px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 0;
+}
+
+nav li {
+    background-color: #aaa;
+    padding: 8px;
+}
+
+nav li a {
+    color: #fff;
+    display: block;
+}
+
+nav li:hover,
+nav li:active {
+    background-color: #555;
+}
+
+nav li.active {
+    background-color: #555;
+}
+
+.ttl {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .scroll-box {
     max-height: 200px;
     max-width: 200px;
@@ -9,10 +77,33 @@
 
 .flex-container {
     display: flex;
+    justify-content: center;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
 }
 
 .flex-container > div {
     margin-right: 10px;
+}
+
+.filter-form {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.movie-boxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 500px;
+    max-width: 90vw;
+    margin: 0 auto;
+    overflow-y: auto;
 }
 
 .movie-box {
@@ -20,6 +111,16 @@
     padding: 10px;
     margin: 10px;
     width: 200px;
-    height: 250px;
+    max-height: 350px;
     display: inline-block;
+}
+
+.movie-box > p {
+    margin: 10px;
+}
+
+.genre-form  {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }

@@ -34,5 +34,30 @@ class Movie {
             throw new Exception ("Error retrieving editions available for every movie.");
         }
     }
+
+    public function getGenresForMovie($movieId)
+    {
+        $query = "SELECT genre.name FROM genre
+                  INNER JOIN movie_has_genre ON genre.id_genre = movie_has_genre.genre_id_genre
+                  WHERE movie_has_genre.movie_id_movie = ?";
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->execute([$movieId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addGenreForMovie($movieId, $genreId)
+    {
+        $query = "INSERT INTO movie_has_genre (movie_id_movie, genre_id_genre) VALUES (?, ?)";
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->execute([$movieId, $genreId]);
+    }
+
+    public function deleteGenreForMovie($movieId, $genreId)
+    {
+        $query = "DELETE FROM movie_has_genre WHERE movie_id_movie = ? AND genre_id_genre = ?";
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->execute([$movieId, $genreId]);
+    }
 }
 

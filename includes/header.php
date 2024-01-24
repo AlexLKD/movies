@@ -6,4 +6,12 @@
     <link rel="stylesheet" href="CSS/style.css" />
     <title>Add Movie Form</title>
 </head>
+<header>
+    <nav>
+        <ul>
+            <li class=""><a href="index.php">Movies</a></li>
+            <li><a href="users.php">Users</a></li>
+        </ul>
+    </nav>
+</header>
 <body>
