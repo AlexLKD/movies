@@ -30,12 +30,5 @@ class MovieController
             echo $result;
         }
     }
-    public function displayAllMovies() {
-        $movieModel = new Movie();
-        $movies = $movieModel->getAllMovies(); // Implement this method in your Movie model
-
-        // Include the view
-        include('Views/display_movies.php');
-    }
 }
 ?>

@@ -17,17 +17,13 @@ class MovieHandler
     public function addMovie($title, $synopsis, $director, $producer, $genres, $actors, $editions)
     {
         try {
-            // Insert movie data into the database
             $movieId = $this->insertMovie($title, $synopsis, $director, $producer);
-
-            // Insert genres, actors, and editions
             $this->insertGenres($movieId, $genres);
             $this->insertActors($movieId, $actors);
             $this->insertEditions($movieId, $editions);
 
             return "Movie added successfully!";
         } catch (Exception $e) {
-            // Handle database errors
             return "Error adding movie: " . $e->getMessage();
         }
     }
@@ -67,4 +63,77 @@ class MovieHandler
             $stmt->execute([$movieId, $edition]);
         }
     }
+
+    public function getMovies($searchQuery = null)
+    {
+        $query = "SELECT * FROM movie";
+        if ($searchQuery) {
+            $query .= " WHERE title LIKE :searchQuery";
+        }
+        $stmt = $this->dbCo->prepare($query);
+        if ($searchQuery) {
+            $stmt->bindValue(':searchQuery', '%' . $searchQuery . '%', PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // public function searchMovies($searchTerm)
+    // {
+    //     $query = "SELECT * FROM movie WHERE title LIKE :searchTerm";
+    //     $stmt = $this->dbCo->prepare($query);
+    //     $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+    //     $stmt->execute();
+    //     return $stmt->fetchAll();
+    // }
+
+    public function searchMoviesWithDetails($searchTerm, $director = null, $genre = null, $actor = null)
+    {
+        // Build the basic query
+        $query = "SELECT movie.*, director.first_name AS director_first_name, director.last_name AS director_last_name,
+                  GROUP_CONCAT(DISTINCT genre.name) AS genre_names,
+                  GROUP_CONCAT(DISTINCT actor.first_name, ' ', actor.last_name) AS actor_names
+                  FROM movie
+                  LEFT JOIN director ON movie.director_id_director = director.id_director
+                  LEFT JOIN movie_has_genre ON movie.id_movie = movie_has_genre.movie_id_movie
+                  LEFT JOIN genre ON movie_has_genre.genre_id_genre = genre.id_genre
+                  LEFT JOIN movie_has_actor ON movie.id_movie = movie_has_actor.movie_id_movie
+                  LEFT JOIN actor ON movie_has_actor.actor_id_actor = actor.id_actor
+                  WHERE movie.title LIKE :searchTerm";
+    
+        // Append additional conditions based on the provided filters
+        if ($director) {
+            $query .= " AND movie.director_id_director = :director";
+        }
+        if ($genre) {
+            $query .= " AND genre.id_genre = :genre"; // Modifier ici
+        }
+        if ($actor) {
+            $query .= " AND actor.id_actor = :actor"; // Modifier ici
+        }
+    
+        $query .= " GROUP BY movie.id_movie";
+    
+        $stmt = $this->dbCo->prepare($query);
+    
+        // Bind parameters
+        $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+        if ($director) {
+            $stmt->bindParam(':director', $director, PDO::PARAM_STR);
+        }
+        if ($genre) {
+            $stmt->bindParam(':genre', $genre, PDO::PARAM_STR);
+        }
+        if ($actor) {
+            $stmt->bindParam(':actor', $actor, PDO::PARAM_STR);
+        }
+    
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
+
+
 }

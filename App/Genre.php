@@ -21,6 +21,24 @@ class Genre {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+public function getGenreNames($movieId) {
+    $query = "SELECT g.name FROM genre g
+              JOIN movie_has_genre mhg ON g.id_genre = mhg.genre_id_genre
+              WHERE mhg.movie_id_movie = :movieId";
+    
+    $stmt = $this->dbCo->prepare($query);
+    $stmt->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $genreNames = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $genreNames[] = $row['name'];
+    }
+
+    return implode(', ', $genreNames);
+}
+
+
     public function getGenreDetails($genreId) 
 {
     $query = "SELECT * FROM genre WHERE id_genre = :genreId";

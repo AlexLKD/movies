@@ -25,6 +25,24 @@ class Actor {
         }
     }
 
+public function getActorsNames($movieId) {
+    $query = "SELECT a.first_name, a.last_name FROM actor a
+              JOIN movie_has_actor mha ON a.id_actor = mha.actor_id_actor
+              WHERE mha.movie_id_movie = :movieId";
+    
+    $stmt = $this->dbCo->prepare($query);
+    $stmt->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $actorNames = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $actorNames[] = $row['first_name'] . ' ' . $row['last_name'];
+    }
+
+    return implode(', ', $actorNames);
+}
+
+
     public function getActorDetails($actorId) {
         $query = "SELECT * FROM actor WHERE id_actor = :actorId";
         $stmt = $this->dbCo->prepare($query);
