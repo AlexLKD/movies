@@ -124,4 +124,36 @@ class MovieHandler
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getGenresForMovie($movieId)
+    {
+        $query = "SELECT genre.id_genre, genre.name
+                  FROM genre
+                  JOIN movie_has_genre ON genre.id_genre = movie_has_genre.genre_id_genre
+                  WHERE movie_has_genre.movie_id_movie = :movieId";
+
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Add this method to get other genres (genres that the movie doesn't have)
+    public function getOtherGenresForMovie($movieId)
+    {
+        $query = "SELECT id_genre, name
+                  FROM genre
+                  WHERE id_genre NOT IN (
+                      SELECT genre_id_genre
+                      FROM movie_has_genre
+                      WHERE movie_id_movie = :movieId
+                  )";
+
+        $stmt = $this->dbCo->prepare($query);
+        $stmt->bindParam(':movieId', $movieId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

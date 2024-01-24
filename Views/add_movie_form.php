@@ -32,7 +32,7 @@ $editions = $editionClass->getAllEditions();
 
         <label for="synopsis">Synopsis:</label>
         <textarea id="synopsis" name="synopsis" required></textarea><br>
-        <input type="submit" value="Add Movie">
+        <input type="submit" name="addmovie" value="Add Movie">
     </div>
 
     <div class="scroll-box">

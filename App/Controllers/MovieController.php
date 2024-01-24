@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Movie;
 use App\MovieHandler;
+use Exception;
 
 class MovieController
 {
@@ -17,7 +18,9 @@ class MovieController
 
     public function addMovie()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Check if the form button with the name "addMovie" is clicked
+        if (isset($_POST['action']) && $_POST['action'] === 'addMovie') {
             $title = isset($_POST['title']) ? $_POST['title'] : '';
             $synopsis = isset($_POST['synopsis']) ? $_POST['synopsis'] : '';
             $directorId = isset($_POST['directors']) ? $_POST['directors'][0] : '';
@@ -30,7 +33,28 @@ class MovieController
             $result = $this->movieHandler->addMovie($title, $synopsis, $directorId, $producerId, $genreIds, $actorIds, $editionIds);
 
             echo $result;
+            }
         }
     }
+
+    public function showGenresAction()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['showGenres'])) {
+                $selectedMovieId = $_POST['selectedMovie'];
+                $movieHandler = new MovieHandler();
+                $currentGenres = $movieHandler->getGenresForMovie($selectedMovieId);
+                $otherGenres = $movieHandler->getOtherGenresForMovie($selectedMovieId);
+
+                // Include the file to display genres
+                include 'Views/display_genres.php';
+            }
+        } catch (Exception $e) {
+            // Handle exceptions, e.g., display an error message
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+
 }
 ?>
